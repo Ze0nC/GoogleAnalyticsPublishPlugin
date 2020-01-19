@@ -5,8 +5,8 @@ import Plot
 public extension Plugin {
     static func googleAnalytics(trackingID: String) -> Self {
         Plugin(name: "Google Analytics for Tracking ID \(trackingID)") { context in
-            Node<HTML.DocumentContext>.addHeadNodesAtBeginning(
-                .raw("<!-- Global site tag (gtag.js) - Google Analytics -->"),
+            Node<HTML.DocumentContext>.additionalWholeSiteHeadNodes.append(contentsOf:
+                [.raw("<!-- Global site tag (gtag.js) - Google Analytics -->"),
                 .raw("<script async src=\"https://www.googletagmanager.com/gtag/js?id=\(trackingID)\"></script>"),
                 .script(.text("""
                     window.dataLayer = window.dataLayer || [];
@@ -15,7 +15,7 @@ public extension Plugin {
 
                     gtag('config', '\(trackingID)');
                 """))
-            )
+            ])
         }
     }
 }
